@@ -32,14 +32,13 @@ public class ReservationServiceImpl implements ReservationService {
         ParkingLot parkingLot = parkingLotRepository3.findById(parkingLotId).get();
 
         List<Spot> spotList = parkingLot.getSpotList();
-        if(spotList.size()==0)throw new Exception("Cannot make reservation");
         int minAmount=Integer.MAX_VALUE;
         Spot reserveSpot = null;
         for(Spot spot: spotList){
             String spotType = spot.getSpotType().toString();
             int wheels = 0;
             if(spotType.equals("TWO_WHEELER"))wheels=2;
-            if(spotType.equals("FOUR_WHEELER"))wheels=4;
+            else if(spotType.equals("FOUR_WHEELER"))wheels=4;
             else wheels=1000;
             if(wheels<numberOfWheels)continue;
             int perHourCost = spot.getPricePerHour();
