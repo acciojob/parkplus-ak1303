@@ -47,11 +47,19 @@ public class ReservationServiceImpl implements ReservationService {
                 reserveSpot=spot;
             }
         }
+        if(reserveSpot==null)throw new Exception("Cannot make reservation");
         Reservation reservation = new Reservation();
         reservation.setSpot(reserveSpot);
         reservation.setUser(user);
         reservation.setNumberOfHours(timeInHours);
         reservationRepository3.save(reservation);
+
+        List<Reservation> reservationList = user.getReservationList();
+        List<Reservation> reservations = reserveSpot.getReservationList();
+        reservations.add(reservation);
+        reservationList.add(reservation);
+        userRepository3.save(user);
+        spotRepository3.save(reserveSpot);
         return reservation;
     }
 }
