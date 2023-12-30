@@ -9,6 +9,4 @@ import java.util.List;
 
 @Repository
 public interface SpotRepository extends JpaRepository<Spot, Integer>{
-    @Query(value = "select * from spot where parking_lot_id=:parkingLotId",nativeQuery = true)
-    List<Spot> findSpotByParkingId(int parkingLotId);
 }

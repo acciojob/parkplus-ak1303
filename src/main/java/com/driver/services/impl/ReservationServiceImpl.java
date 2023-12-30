@@ -29,11 +29,9 @@ public class ReservationServiceImpl implements ReservationService {
         User user = userRepository3.findById(userId).orElse(null);
         ParkingLot parkingLot = parkingLotRepository3.findById(parkingLotId).orElse(null);
         if(user==null || parkingLot==null)
-//            throw new Exception("Cannot make reservation");
-            return null;
-        List<Spot> spotList = spotRepository3.findSpotByParkingId(parkingLotId);
-        if(spotList.size()==0)//throw new Exception("Cannot make reservation");
-            return null;
+             throw new Exception("Cannot make reservation");
+        List<Spot> spotList = parkingLot.getSpotList();
+        if(spotList.size()==0)throw new Exception("Cannot make reservation");
         int minAmount=Integer.MAX_VALUE;
         Spot reserveSpot = null;
         for(Spot spot: spotList){
@@ -41,7 +39,7 @@ public class ReservationServiceImpl implements ReservationService {
             int wheels = 0;
             if(spotType=="TWO_WHEELER")wheels=2;
             if(spotType=="FOUR_WHEELER")wheels=4;
-            else wheels=100;
+            else wheels=1000;
             if(wheels<numberOfWheels)continue;
             int perHourCost = spot.getPricePerHour();
             if(perHourCost<minAmount){

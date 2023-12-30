@@ -34,12 +34,11 @@ public class ParkingLotServiceImpl implements ParkingLotService {
         //Assign spot to given parking lot
         newSpot.setParkingLot(parkingLot);
         //Assign spot type on the basis of no of wheels
-        SpotType spotType;
+        SpotType spotType=OTHERS;
         if(numberOfWheels==2)
             spotType=TWO_WHEELER;
         else if(numberOfWheels==4)
             spotType=FOUR_WHEELER;
-        else spotType=OTHERS;
         newSpot.setSpotType(spotType);
         newSpot.setPricePerHour(pricePerHour);
         newSpot.setOccupied(false);
