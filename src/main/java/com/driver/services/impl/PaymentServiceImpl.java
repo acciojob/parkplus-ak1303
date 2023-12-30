@@ -20,7 +20,7 @@ public class PaymentServiceImpl implements PaymentService {
     public Payment pay(Integer reservationId, int amountSent, String mode) throws Exception {
         Reservation reservation = reservationRepository2.findById(reservationId).orElse(null);
         int perHourCost = reservation.getSpot().getPricePerHour();
-        int duration = reservation.getNoOfHours();
+        int duration = reservation.getNumberOfHours();
         int bill = duration*perHourCost;
         if(amountSent<bill) throw new Exception("Insufficient Amount");
         mode = mode.toUpperCase();

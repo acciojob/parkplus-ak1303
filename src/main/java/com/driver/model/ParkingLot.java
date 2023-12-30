@@ -1,9 +1,8 @@
 package com.driver.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
+
 @Entity
 public class ParkingLot {
     @Id
@@ -11,11 +10,22 @@ public class ParkingLot {
     private int id;
     private String name;
     private String address;
+    @OneToMany(mappedBy = "parkingLot")
+    private List<Spot> spotList;
 
-    public ParkingLot(int id, String name, String address) {
+    public ParkingLot(int id, String name, String address, List<Spot> spotList) {
         this.id = id;
         this.name = name;
         this.address = address;
+        this.spotList=spotList;
+    }
+
+    public List<Spot> getSpotList() {
+        return spotList;
+    }
+
+    public void setSpotList(List<Spot> spotList) {
+        this.spotList = spotList;
     }
 
     public int getId() {
