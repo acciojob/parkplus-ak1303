@@ -10,8 +10,10 @@ public class Payment {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private boolean paymentCompleted;
+    @Enumerated
     PaymentMode paymentMode;
-    @OneToOne(mappedBy = "payment")
+    @OneToOne
+    @JoinColumn
     Reservation reservation;
 
     public Payment(int id, boolean paymentCompleted, PaymentMode paymentMode, Reservation reservation) {

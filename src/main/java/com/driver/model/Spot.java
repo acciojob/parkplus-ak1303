@@ -12,8 +12,9 @@ public class Spot {
     private int pricePerHour;
     private boolean occupied;
     @ManyToOne
+    @JoinColumn
     ParkingLot parkingLot;
-    @OneToMany(mappedBy = "spot")
+    @OneToMany(mappedBy = "reservation",cascade = CascadeType.ALL)
     List<Reservation> reservationList;
 
     public Spot(int id, SpotType spotType, int pricePerHour, boolean occupied, ParkingLot parkingLot, List<Reservation> reservationList) {

@@ -9,10 +9,12 @@ public class Reservation {
     private int id;
     private int numberOfHours;
     @ManyToOne
+    @JoinColumn
     User user;
     @ManyToOne
+    @JoinColumn
     Spot spot;
-    @OneToOne
+    @OneToOne(mappedBy = "reservation",cascade = CascadeType.ALL)
     Payment payment;
 
     public Reservation(int id, int numberOfHours, User user, Spot spot, Payment payment) {
