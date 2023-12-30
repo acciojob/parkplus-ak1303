@@ -1,6 +1,8 @@
 package com.driver.services;
 
 
+import com.driver.Entity.User;
+
 public interface UserService {
 
 	void deleteUser(Integer userId);
