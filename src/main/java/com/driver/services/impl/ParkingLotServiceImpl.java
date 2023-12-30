@@ -2,7 +2,6 @@ package com.driver.services.impl;
 
 import com.driver.model.ParkingLot;
 import com.driver.model.Spot;
-import com.driver.exceptions.parkingLotDoesNotExistException;
 import com.driver.model.SpotType;
 import com.driver.repository.ParkingLotRepository;
 import com.driver.repository.SpotRepository;
@@ -31,9 +30,7 @@ public class ParkingLotServiceImpl implements ParkingLotService {
     public Spot addSpot(int parkingLotId, Integer numberOfWheels, Integer pricePerHour) {
         Spot newSpot = new Spot();
         ParkingLot parkingLot = parkingLotRepository1.findById(parkingLotId).orElse(null);
-        if(parkingLot==null){
-            throw new parkingLotDoesNotExistException("Parking lot does not exist with id you have provided");
-        }
+        if(parkingLot==null)return null;
         //Assign spot to given parking lot
         newSpot.setParkingLot(parkingLot);
         //Assign spot type on the basis of no of wheels
@@ -61,6 +58,7 @@ public class ParkingLotServiceImpl implements ParkingLotService {
     @Override
     public Spot updateSpot(int parkingLotId, int spotId, int pricePerHour) {
         Spot spot = spotRepository1.findById(spotId).orElse(null);
+        if(spot==null)return null;
         if(spot.getParkingLot().getId()==parkingLotId)
             spot.setPricePerHour(pricePerHour);
         spotRepository1.save(spot);
@@ -69,9 +67,6 @@ public class ParkingLotServiceImpl implements ParkingLotService {
 
     @Override
     public void deleteParkingLot(int parkingLotId) {
-        ParkingLot parkingLot = parkingLotRepository1.findById(parkingLotId).orElse(null);
-        if(parkingLot!=null){
-            parkingLotRepository1.delete(parkingLot);
-        }
+        parkingLotRepository1.deleteById(parkingLotId);
     }
 }
