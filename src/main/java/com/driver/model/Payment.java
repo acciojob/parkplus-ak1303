@@ -1,6 +1,7 @@
-package com.driver.Entity;
+package com.driver.model;
 
 import com.driver.model.PaymentMode;
+import com.driver.model.Reservation;
 
 import javax.persistence.*;
 @Entity

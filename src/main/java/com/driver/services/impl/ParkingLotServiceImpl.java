@@ -1,7 +1,7 @@
 package com.driver.services.impl;
 
-import com.driver.Entity.ParkingLot;
-import com.driver.Entity.Spot;
+import com.driver.model.ParkingLot;
+import com.driver.model.Spot;
 import com.driver.exceptions.parkingLotDoesNotExistException;
 import com.driver.model.SpotType;
 import com.driver.repository.ParkingLotRepository;
@@ -9,9 +9,6 @@ import com.driver.repository.SpotRepository;
 import com.driver.services.ParkingLotService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static com.driver.model.SpotType.*;
 

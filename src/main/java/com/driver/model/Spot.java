@@ -1,6 +1,4 @@
-package com.driver.Entity;
-
-import com.driver.model.SpotType;
+package com.driver.model;
 
 import javax.persistence.*;
 import java.util.List;
