@@ -18,7 +18,7 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public Payment pay(Integer reservationId, int amountSent, String mode) throws Exception {
-        Reservation reservation = reservationRepository2.findById(reservationId).orElse(null);
+        Reservation reservation = reservationRepository2.findById(reservationId).get();
         int perHourCost = reservation.getSpot().getPricePerHour();
         int duration = reservation.getNumberOfHours();
         int bill = duration*perHourCost;
