@@ -3,6 +3,7 @@ package com.driver.model;
 import com.driver.model.Reservation;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 @Entity
 public class User {
@@ -13,7 +14,7 @@ public class User {
     private String phoneNumber;
     private String password;
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
-    private List<Reservation> reservationList;
+    private List<Reservation> reservationList = new ArrayList<>();
 
     public User() {
     }

@@ -15,7 +15,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class ReservationServiceImpl implements ReservationService {
+public class
+ReservationServiceImpl implements ReservationService {
     @Autowired
     UserRepository userRepository3;
     @Autowired
@@ -26,9 +27,9 @@ public class ReservationServiceImpl implements ReservationService {
     ParkingLotRepository parkingLotRepository3;
     @Override
     public Reservation reserveSpot(Integer userId, Integer parkingLotId, Integer timeInHours, Integer numberOfWheels) throws Exception {
-        if(userRepository3.findById(userId)==null)throw new Exception("Cannot make reservation");
+        if(!userRepository3.findById(userId).isPresent())throw new Exception("Cannot make reservation");
         User user = userRepository3.findById(userId).get();
-        if(parkingLotRepository3.findById(parkingLotId)==null)throw new Exception("Cannot make reservation");
+        if(!parkingLotRepository3.findById(parkingLotId).isPresent())throw new Exception("Cannot make reservation");
         ParkingLot parkingLot = parkingLotRepository3.findById(parkingLotId).get();
 
         List<Spot> spotList = parkingLot.getSpotList();
@@ -40,7 +41,7 @@ public class ReservationServiceImpl implements ReservationService {
             if(spotType.equals("TWO_WHEELER"))wheels=2;
             else if(spotType.equals("FOUR_WHEELER"))wheels=4;
             else wheels=1000;
-            if(wheels<numberOfWheels)continue;
+            if(wheels<numberOfWheels)continue;//available wheel space should be more than or equal to numberOfWheels
             int perHourCost = spot.getPricePerHour();
             if(spot.getOccupied()==false && perHourCost<minAmount){
                 minAmount=perHourCost;
@@ -54,12 +55,12 @@ public class ReservationServiceImpl implements ReservationService {
         reservation.setSpot(reserveSpot);
         reservation.setUser(user);
         reservation.setNumberOfHours(timeInHours);
-        reservationRepository3.save(reservation);
+//        reservationRepository3.save(reservation);
 
-        List<Reservation> reservationList = user.getReservationList();
-        List<Reservation> reservations = reserveSpot.getReservationList();
-        reservations.add(reservation);
-        reservationList.add(reservation);
+        List<Reservation> userReservationList = user.getReservationList();
+        List<Reservation> spotReservationList = reserveSpot.getReservationList();
+        spotReservationList.add(reservation);
+        userReservationList.add(reservation);
         userRepository3.save(user);
         spotRepository3.save(reserveSpot);
         return reservation;

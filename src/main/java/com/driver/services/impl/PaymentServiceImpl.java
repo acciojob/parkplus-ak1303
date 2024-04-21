@@ -35,11 +35,13 @@ public class PaymentServiceImpl implements PaymentService {
         }else {
             throw new Exception("Payment mode not detected");
         }
-        reservation.getSpot().setOccupied(false);
         payment.setPaymentCompleted(true);
-        payment.setReservation(reservation);
+
+        reservation.getSpot().setOccupied(false);
         reservation.setPayment(payment);
         reservationRepository2.save(reservation);
+
+        payment.setReservation(reservation);
         //paymentRepository2.save(payment);
         return payment;
     }
