@@ -55,7 +55,6 @@ ReservationServiceImpl implements ReservationService {
         reservation.setSpot(reserveSpot);
         reservation.setUser(user);
         reservation.setNumberOfHours(timeInHours);
-//        reservationRepository3.save(reservation);
 
         List<Reservation> userReservationList = user.getReservationList();
         List<Reservation> spotReservationList = reserveSpot.getReservationList();

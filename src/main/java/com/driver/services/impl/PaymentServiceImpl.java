@@ -39,10 +39,10 @@ public class PaymentServiceImpl implements PaymentService {
 
         reservation.getSpot().setOccupied(false);
         reservation.setPayment(payment);
+        payment.setReservation(reservation);
+
         reservationRepository2.save(reservation);
 
-        payment.setReservation(reservation);
-        //paymentRepository2.save(payment);
         return payment;
     }
 }
