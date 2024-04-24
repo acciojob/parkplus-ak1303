@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static com.driver.model.SpotType.*;
 
@@ -31,9 +32,11 @@ public class ParkingLotServiceImpl implements ParkingLotService {
 
     @Override
     public Spot addSpot(int parkingLotId, Integer numberOfWheels, Integer pricePerHour) {
-        Spot newSpot = new Spot();
-        ParkingLot parkingLot = parkingLotRepository1.findById(parkingLotId).get();
+        Optional<ParkingLot> optionalParkingLot = parkingLotRepository1.findById(parkingLotId);
+        if(!optionalParkingLot.isPresent())return null;
+        ParkingLot parkingLot = optionalParkingLot.get();
         //Assign spot to given parking lot
+        Spot newSpot = new Spot();
         newSpot.setParkingLot(parkingLot);//include this line as I have to return newSpot
         //Assign spot type on the basis of no of wheels
         if(numberOfWheels<4)
@@ -47,6 +50,7 @@ public class ParkingLotServiceImpl implements ParkingLotService {
         //change in parking lot for List<Spot>
         List<Spot> spotList = parkingLot.getSpotList();
         spotList.add(newSpot);
+
         parkingLotRepository1.save(parkingLot);
 
         return newSpot;
@@ -66,14 +70,11 @@ public class ParkingLotServiceImpl implements ParkingLotService {
         for(Spot spot1 : spotList){
             if(spot1.getId()==spotId){
                 spot1.setPricePerHour(pricePerHour);
+                spotRepository1.save(spot1);
                 spot=spot1;
                 break;
             }
         }
-
-        parkingLot.setSpotList(spotList);
-        parkingLotRepository1.save(parkingLot);
-
         return spot;
     }
 

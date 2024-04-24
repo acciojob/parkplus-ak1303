@@ -28,8 +28,9 @@ ReservationServiceImpl implements ReservationService {
     @Override
     public Reservation reserveSpot(Integer userId, Integer parkingLotId, Integer timeInHours, Integer numberOfWheels) throws Exception {
         if(!userRepository3.findById(userId).isPresent())throw new Exception("Cannot make reservation");
-        User user = userRepository3.findById(userId).get();
         if(!parkingLotRepository3.findById(parkingLotId).isPresent())throw new Exception("Cannot make reservation");
+
+        User user = userRepository3.findById(userId).get();
         ParkingLot parkingLot = parkingLotRepository3.findById(parkingLotId).get();
 
         List<Spot> spotList = parkingLot.getSpotList();
@@ -37,10 +38,10 @@ ReservationServiceImpl implements ReservationService {
         Spot reserveSpot = null;
         for(Spot spot: spotList){
             String spotType = spot.getSpotType().toString();
-            int wheels = 0;
+            int wheels;
             if(spotType.equals("TWO_WHEELER"))wheels=2;
             else if(spotType.equals("FOUR_WHEELER"))wheels=4;
-            else wheels=1000;
+            else wheels=Integer.MAX_VALUE;
             if(wheels<numberOfWheels)continue;//available wheel space should be more than or equal to numberOfWheels
             int perHourCost = spot.getPricePerHour();
             if(spot.getOccupied()==false && perHourCost<minAmount){
@@ -56,10 +57,9 @@ ReservationServiceImpl implements ReservationService {
         reservation.setUser(user);
         reservation.setNumberOfHours(timeInHours);
 
-        List<Reservation> userReservationList = user.getReservationList();
-        List<Reservation> spotReservationList = reserveSpot.getReservationList();
-        spotReservationList.add(reservation);
-        userReservationList.add(reservation);
+
+        reserveSpot.getReservationList().add(reservation);
+        user.getReservationList().add(reservation);
         userRepository3.save(user);
         spotRepository3.save(reserveSpot);
         return reservation;
