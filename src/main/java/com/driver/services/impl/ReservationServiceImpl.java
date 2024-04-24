@@ -44,7 +44,7 @@ ReservationServiceImpl implements ReservationService {
             else wheels=Integer.MAX_VALUE;
             if(wheels<numberOfWheels)continue;//available wheel space should be more than or equal to numberOfWheels
             int perHourCost = spot.getPricePerHour();
-            if(!spot.getOccupied() && perHourCost<minAmount || (perHourCost==minAmount  && wheels==numberOfWheels)){
+            if(!spot.getOccupied() && perHourCost<=minAmount){
                 minAmount=perHourCost;
                 reserveSpot=spot;
             }
